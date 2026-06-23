@@ -4,114 +4,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de senha</title>
+    <title>Gerador de Senhas</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <section class="conteudo">
-        <div class="conteudo-titulo">
-            <img src="unlock.svg" alt="cadeado fechado">
-            <h2 class="titulo-principal">Gerador de senhas</h2>
-            <h3 class="titulo-secundario">Gere instantaneamente uma senha aleatória e segura</h3>
-        </div>
 
-        <div class="conteudo-senha">
-            <label for="campo-senha">Senha</label>
-            <input name="senha" type="text" id="campo-senha" readonly>
-            <button id="copiar">Copiar</button>
-        </div>
+<section class="conteudo">
 
-        <div class="parametro">
+    <div class="conteudo-titulo">
+        <h1 class="titulo-principal">Gerador de Senhas 🔐</h1>
+        <p class="titulo-secundario">Crie senhas seguras de forma rápida</p>
+    </div>
 
-            <h3 class="parametro-titulo">Personalize sua senha</h3>
+    <div class="conteudo-senha">
+        <input type="text" id="campo-senha" readonly>
+        <button id="copiar">Copiar</button>
+    </div>
+
+    <div class="parametro">
+
+        <h2 class="parametro-titulo">Personalização</h2>
+
+        <div class="parametro-coluna__senha">
 
             <div class="parametro-senha">
-                <h4>Número de caracteres</h4>
+                <h3 class="parametro-senha__titulo">Tamanho</h3>
                 <input type="range" id="tamanho" min="6" max="30" value="12">
                 <span id="valor-tamanho">12</span>
             </div>
 
             <div class="parametro-senha">
-                <h4>Características</h4>
+                <h3 class="parametro-senha__titulo">Opções</h3>
 
-                <label><input type="checkbox" id="letras" checked> Letras</label>
-                <label><input type="checkbox" id="numeros" checked> Números</label>
+                <label><input type="checkbox" id="letras" checked> Letras</label><br>
+                <label><input type="checkbox" id="numeros" checked> Números</label><br>
                 <label><input type="checkbox" id="simbolos"> Símbolos</label>
             </div>
 
-            <button id="gerar">Gerar senha</button>
-
             <div class="parametro-senha">
-                <h4>Força da senha:</h4>
-                <span id="forca">-</span>
+                <h3 class="parametro-senha__titulo">Ação</h3>
+                <button id="gerar">Gerar senha</button>
+                <p>Força: <span id="forca">-</span></p>
             </div>
 
         </div>
-    </section>
+    </div>
 
-    <script>
-        const campoSenha = document.getElementById("campo-senha");
-        const botaoGerar = document.getElementById("gerar");
-        const botaoCopiar = document.getElementById("copiar");
+</section>
 
-        const tamanho = document.getElementById("tamanho");
-        const valorTamanho = document.getElementById("valor-tamanho");
+<script>
+const campoSenha = document.getElementById("campo-senha");
+const botaoGerar = document.getElementById("gerar");
+const botaoCopiar = document.getElementById("copiar");
 
-        const chkLetras = document.getElementById("letras");
-        const chkNumeros = document.getElementById("numeros");
-        const chkSimbolos = document.getElementById("simbolos");
+const tamanho = document.getElementById("tamanho");
+const valorTamanho = document.getElementById("valor-tamanho");
 
-        const forca = document.getElementById("forca");
+const chkLetras = document.getElementById("letras");
+const chkNumeros = document.getElementById("numeros");
+const chkSimbolos = document.getElementById("simbolos");
 
-        tamanho.addEventListener("input", () => {
-            valorTamanho.textContent = tamanho.value;
-        });
+const forca = document.getElementById("forca");
 
-        function gerarSenha() {
-            const letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            const numeros = "0123456789";
-            const simbolos = "!@#$%&*()-_=+[]{}<>?";
+tamanho.addEventListener("input", () => {
+    valorTamanho.textContent = tamanho.value;
+});
 
-            let caracteres = "";
+function gerarSenha() {
+    const letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numeros = "0123456789";
+    const simbolos = "!@#$%&*()-_=+[]{}<>?";
 
-            if (chkLetras.checked) caracteres += letras;
-            if (chkNumeros.checked) caracteres += numeros;
-            if (chkSimbolos.checked) caracteres += simbolos;
+    let chars = "";
 
-            if (caracteres === "") {
-                alert("Selecione pelo menos uma opção!");
-                return "";
-            }
+    if (chkLetras.checked) chars += letras;
+    if (chkNumeros.checked) chars += numeros;
+    if (chkSimbolos.checked) chars += simbolos;
 
-            let senha = "";
+    if (chars === "") return "";
 
-            for (let i = 0; i < tamanho.value; i++) {
-                const index = Math.floor(Math.random() * caracteres.length);
-                senha += caracteres[index];
-            }
+    let senha = "";
 
-            return senha;
-        }
+    for (let i = 0; i < tamanho.value; i++) {
+        senha += chars[Math.floor(Math.random() * chars.length)];
+    }
 
-        function avaliarForca(senha) {
-            if (senha.length < 8) return "Fraca";
-            if (senha.length < 12) return "Média";
-            return "Forte";
-        }
+    return senha;
+}
 
-        botaoGerar.addEventListener("click", () => {
-            const senha = gerarSenha();
-            campoSenha.value = senha;
-            forca.textContent = avaliarForca(senha);
-        });
+function avaliarForca(senha) {
+    if (senha.length < 8) return "Fraca";
+    if (senha.length < 12) return "Média";
+    return "Forte";
+}
 
-        botaoCopiar.addEventListener("click", () => {
-            campoSenha.select();
-            document.execCommand("copy");
-            alert("Senha copiada!");
-        });
-    </script>
+botaoGerar.addEventListener("click", () => {
+    const senha = gerarSenha();
+    campoSenha.value = senha;
+    forca.textContent = avaliarForca(senha);
+});
+
+botaoCopiar.addEventListener("click", () => {
+    campoSenha.select();
+    document.execCommand("copy");
+    alert("Senha copiada!");
+});
+</script>
+
 </body>
-
 </html>
