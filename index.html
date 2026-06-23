@@ -15,25 +15,103 @@
             <h2 class="titulo-principal">Gerador de senhas</h2>
             <h3 class="titulo-secundario">Gere instantaneamente uma senha aleatória e segura</h3>
         </div>
+
         <div class="conteudo-senha">
-            <label for="senha">Senha</label>
-            <input name="senha" type="text" id="campo-senha">
+            <label for="campo-senha">Senha</label>
+            <input name="senha" type="text" id="campo-senha" readonly>
+            <button id="copiar">Copiar</button>
         </div>
+
         <div class="parametro">
+
             <h3 class="parametro-titulo">Personalize sua senha</h3>
-            <div class="parametro-coluna__senha">
-                <div class="parametro-senha">
-                    <h4 class="parametro-senha__titulo">Número de caracteres</h4>
-                </div>                
-                <div class="parametro-senha">
-                    <h4 class="parametro-senha__titulo">Características da senha</h4>
-                </div>
-                <div class="parametro-senha">
-                    <h4 class="parametro-senha__titulo">Força da senha</h4>
-                </div>
+
+            <div class="parametro-senha">
+                <h4>Número de caracteres</h4>
+                <input type="range" id="tamanho" min="6" max="30" value="12">
+                <span id="valor-tamanho">12</span>
             </div>
+
+            <div class="parametro-senha">
+                <h4>Características</h4>
+
+                <label><input type="checkbox" id="letras" checked> Letras</label>
+                <label><input type="checkbox" id="numeros" checked> Números</label>
+                <label><input type="checkbox" id="simbolos"> Símbolos</label>
+            </div>
+
+            <button id="gerar">Gerar senha</button>
+
+            <div class="parametro-senha">
+                <h4>Força da senha:</h4>
+                <span id="forca">-</span>
+            </div>
+
         </div>
     </section>
+
+    <script>
+        const campoSenha = document.getElementById("campo-senha");
+        const botaoGerar = document.getElementById("gerar");
+        const botaoCopiar = document.getElementById("copiar");
+
+        const tamanho = document.getElementById("tamanho");
+        const valorTamanho = document.getElementById("valor-tamanho");
+
+        const chkLetras = document.getElementById("letras");
+        const chkNumeros = document.getElementById("numeros");
+        const chkSimbolos = document.getElementById("simbolos");
+
+        const forca = document.getElementById("forca");
+
+        tamanho.addEventListener("input", () => {
+            valorTamanho.textContent = tamanho.value;
+        });
+
+        function gerarSenha() {
+            const letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const numeros = "0123456789";
+            const simbolos = "!@#$%&*()-_=+[]{}<>?";
+
+            let caracteres = "";
+
+            if (chkLetras.checked) caracteres += letras;
+            if (chkNumeros.checked) caracteres += numeros;
+            if (chkSimbolos.checked) caracteres += simbolos;
+
+            if (caracteres === "") {
+                alert("Selecione pelo menos uma opção!");
+                return "";
+            }
+
+            let senha = "";
+
+            for (let i = 0; i < tamanho.value; i++) {
+                const index = Math.floor(Math.random() * caracteres.length);
+                senha += caracteres[index];
+            }
+
+            return senha;
+        }
+
+        function avaliarForca(senha) {
+            if (senha.length < 8) return "Fraca";
+            if (senha.length < 12) return "Média";
+            return "Forte";
+        }
+
+        botaoGerar.addEventListener("click", () => {
+            const senha = gerarSenha();
+            campoSenha.value = senha;
+            forca.textContent = avaliarForca(senha);
+        });
+
+        botaoCopiar.addEventListener("click", () => {
+            campoSenha.select();
+            document.execCommand("copy");
+            alert("Senha copiada!");
+        });
+    </script>
 </body>
 
 </html>
