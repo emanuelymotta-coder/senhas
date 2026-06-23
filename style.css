@@ -12,12 +12,26 @@
 
 *{
     font-weight: 400;
+    box-sizing: border-box;
 }
 
 body{
     color: var(--branco);
     background-color: var(--cor-de-fundo);
     font-family: var(--roboto);
+    margin: 0;
+    padding: 0;
+}
+
+.conteudo{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.conteudo-titulo{
+    text-align: center;
+    margin-top: 60px;
 }
 
 .titulo-principal{
@@ -26,67 +40,103 @@ body{
 }
 
 .titulo-secundario{
-    font-size: 24px;
-}
-
-.conteudo-titulo{
-    text-align: center;
-    margin-top: 80px;
+    font-size: 20px;
+    opacity: 0.8;
 }
 
 .conteudo-senha{
-    margin-top: 80px; 
+    margin-top: 60px; 
     background: var(--fundo-senha);
     padding: 24px;
     border-bottom: 6px solid var(--borda);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
 }
 
 #campo-senha{
-    background-color: var(--fundo-senha);
+    background-color: transparent;
     border: none;
     color: var(--branco);
     font-family: var(--roboto-mono);
-    font-size: 40px;
-    width: 70%;
+    font-size: 32px;
+    width: 100%;
 }
 
 #campo-senha:focus{
     outline: none;
 }
 
-.conteudo{
-    max-width: 1200px;
-    margin: 0 auto;
+/* BOTÕES */
+button{
+    background-color: var(--borda);
+    border: none;
+    color: white;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: 0.2s;
 }
 
+button:hover{
+    background-color: #005ed1;
+}
+
+/* PARAMETROS */
 .parametro{
     background-color: var(--fundo-texto);
     border: 2px solid var(--borda);
     margin-top: 32px;
     padding: 24px;
+    border-radius: 8px;
 }
 
 .parametro-titulo{
     font-family: var(--roboto-mono);
-    font-size: 28px;
-}
-
-.parametro-senha__titulo{
-    font-size:24px;
+    font-size: 26px;
 }
 
 .parametro-coluna__senha{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    gap: 24px;
 }
+
 .parametro-senha{
-    width: 50%;
+    width: 100%;
     margin: 0 auto;
 }
 
+.parametro-senha__titulo{
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+/* INPUTS */
+input[type="range"]{
+    width: 100%;
+}
+
+input[type="checkbox"]{
+    transform: scale(1.2);
+    margin-right: 8px;
+}
+
+/* RESPONSIVO */
 @media screen and (min-width: 768px) {
     .parametro-coluna__senha{
         flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .parametro-senha{
+        width: 30%;
+    }
+
+    #campo-senha{
+        font-size: 36px;
     }
 }
